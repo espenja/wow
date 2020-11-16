@@ -105,6 +105,7 @@ hr {
 }
 
 #speaker {
+    cursor: pointer;
     fill: white;
     position: absolute;
     top: 20px;
