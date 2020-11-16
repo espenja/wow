@@ -4,6 +4,7 @@ const startTimeNA = 1605054000 + 120
 window.selected = "EU"
 window.startTime = startTimeEU
 window.sound = true
+window.preventDing = false
 window.loadedTime = new Date()
 window.loadedTime.setSeconds(window.loadedTime.getSeconds() + 5)
 
@@ -282,11 +283,10 @@ const recalculate = () => {
     setNextTime(nextTime)
 
     if (window.currentRare === rares[currentRareIndex].name) {
-        console.log("HAH")
         return
     }
 
-    if (window.sound && new Date() > window.loadedTime) {
+    if (window.sound && !window.preventDing && new Date() > window.loadedTime) {
         playSound()
     }
 
@@ -296,6 +296,7 @@ const recalculate = () => {
     setNextRare(rares[nextRareIndex])
     setItems(rares[nextRareIndex], nextActiveItems)
 
+    window.preventDing = false
     window.currentRare = rares[currentRareIndex].name
 
     const nextRares = document.getElementById("nextRares")
@@ -373,6 +374,7 @@ const setEuSelected = () => {
 
 window.updateRegion = (region) => {
     window.currentRare = ""
+    window.preventDing = true
 
     if (region === "NA") {
         setNaSelected()
