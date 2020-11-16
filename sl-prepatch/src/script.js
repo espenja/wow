@@ -1,5 +1,9 @@
-const startTimeEU = 1605097200 + 120
-const startTimeNA = 1605054000 + 120
+// const startTimeEU = 1605097200 + 120
+// const startTimeNA = 1605054000 + 120
+
+const startTimeEU = 1605556200 + 120
+const startTimeNA = 1605556200 + 120
+const rotationTimer = 600
 
 window.selected = "EU"
 window.startTime = startTimeEU
@@ -29,146 +33,181 @@ window.currentRare = ""
 
 const rares = [
     {
-        order: 1,
+        order: 16,
         name: "Noth the Plaguebringer",
-        x: "31.6",
-        y: "70.5",
+        x: 31.6,
+        y: 70.5,
         items: [183642, 183676, 183654, 183200, 183616]
     },
     {
-        order: 2,
+        order: 17,
         name: "Patchwerk",
-        x: "34.4",
-        y: "68.5",
+        x: 34.4,
+        y: 68.5,
         items: [183643, 183644, 183645, 183200, 183616]
     },
     {
-        order: 3,
+        order: 18,
         name: "Blood Queen Lana'thel",
-        x: "49.7",
-        y: "32.7",
+        x: 49.7,
+        y: 32.7,
         items: [183646, 183647, 183648, 183200, 183616]
     },
     {
-        order: 4,
+        order: 19,
         name: "Professor Putricide",
-        x: "57.1",
-        y: "30.3",
+        x: 57.1,
+        y: 30.3,
         items: [183649, 183650, 183651, 183200, 183616]
     },
     {
-        order: 5,
+        order: 20,
         name: "Lady Deathwhisper",
-        x: "51.1",
-        y: "78.5",
+        x: 51.1,
+        y: 78.5,
         items: [183652, 183653, 183655, 183200, 183616]
     },
     {
-        order: 6,
+        order: 1,
         name: "Skadi the Ruthless",
-        x: "57.8",
-        y: "56.1",
+        x: 57.8,
+        y: 56.1,
         items: [44151, 183670, 183656, 183657, 183200, 183616]
     },
     {
-        order: 7,
+        order: 2,
         name: "Ingvar the Plunderer",
-        x: "52.4",
-        y: "52.6",
+        x: 52.4,
+        y: 52.6,
         items: [183668, 183659, 183658, 183200, 183616]
     },
     {
-        order: 8,
+        order: 3,
         name: "Prince Keleseth",
-        x: "54.0",
-        y: "44.7",
+        x: 54.0,
+        y: 44.7,
         items: [183678, 183680, 183661, 183200, 183616]
     },
     {
-        order: 9,
+        order: 4,
         name: "The Black Knight",
-        x: "64.8",
-        y: "22.1",
+        x: 64.8,
+        y: 22.1,
         items: [183638, 183637, 183636, 183200, 183616]
     },
     {
-        order: 10,
+        order: 5,
         name: "Bronjahm",
-        x: "70.7",
-        y: "38.4",
+        x: 70.7,
+        y: 38.4,
         items: [183634, 183675, 183639, 183635, 183200, 183616]
     },
     {
-        order: 11,
+        order: 6,
         name: "Scourgelord Tyrannus",
-        x: "47.2",
-        y: "66.1",
+        x: 47.2,
+        y: 66.1,
         items: [183674, 183633, 183632, 183200, 183616]
     },
     {
-        order: 12,
+        order: 7,
         name: "Forgemaster Garfrost",
-        x: "58.6",
-        y: "72.5",
+        x: 58.6,
+        y: 72.5,
         items: [183666, 183631, 183630, 183200, 183616]
     },
     {
-        order: 13,
+        order: 8,
         name: "Marwyn",
-        x: "58.2",
-        y: "83.4",
+        x: 58.2,
+        y: 83.4,
         items: [183687, 183663, 183662, 183200, 183616]
     },
     {
-        order: 14,
+        order: 9,
         name: "Falric",
-        x: "50.2",
-        y: "87.9",
+        x: 50.2,
+        y: 87.9,
         items: [183664, 183665, 183667, 183200, 183616]
     },
     {
-        order: 15,
+        order: 10,
         name: "The Prophet Tharon'ja",
-        x: "80.1",
-        y: "61.2",
+        x: 80.1,
+        y: 61.2,
         items: [183686, 183685, 183684, 183200, 183616]
     },
     {
-        order: 16,
+        order: 11,
         name: "Novos the Summoner",
-        x: "77.8",
-        y: "66.1",
+        x: 77.8,
+        y: 66.1,
         items: [183671, 183672, 183627, 183200, 183616]
     },
     {
-        order: 17,
+        order: 12,
         name: "Trollgore",
-        x: "58.3",
-        y: "39.4",
+        x: 58.3,
+        y: 39.4,
         items: [183669, 183626, 183640, 183200, 183616]
     },
     {
-        order: 18,
+        order: 13,
         name: "Krik'thir the Gatewatcher",
-        x: "67.5",
-        y: "58.0",
+        x: 67.5,
+        y: 58.0,
         items: [183681, 183682, 183683, 183200, 183616]
     },
     {
-        order: 19,
+        order: 14,
         name: "Prince Taldaram",
-        x: "29.6",
-        y: "62.2",
+        x: 29.6,
+        y: 62.2,
         items: [183625, 183679, 183677, 183200, 183616]
     },
     {
-        order: 20,
+        order: 15,
         name: "Elder Nadox",
-        x: "44.2",
-        y: "49.1",
+        x: 44.2,
+        y: 49.1,
         items: [183673, 183641, 183624, 183200, 183616]
     }
 ].sort((a, b) => a.order - b.order)
+
+// const initMap = () => {
+//     const map = document.getElementById("map")
+
+//     const x1 = map.offsetLeft
+//     const y1 = map.offsetTop
+
+//     // console.log(x1, y1)
+
+//     const skulls = document.getElementById("skull-container")
+//     skulls.innerHTML = ""
+
+//     for (const rare of rares) {
+//         const skull = document.createElement("img")
+//         skull.setAttribute("src", "img/skull.png")
+//         skull.setAttribute("class", "skull")
+//         skull.setAttribute(
+//             "style",
+//             `left: ${x1 + rare.x}px; top: ${y1 + rare.y}px;`
+//         )
+
+//         // console.log(`left: ${x1 + rare.x}px; top: ${y1 + rare.y}px;`)
+
+//         skulls.appendChild(skull)
+//         // const area = document.createElement("area")
+//         // area.setAttribute("title", rare.name)
+//         // area.setAttribute("shape", "circle")
+//         // area.setAttribute("coords", `${~~rare.x},${~~rare.y},50`)
+//         // area.setAttribute("href", "img/skull.png")
+//         // area.setAttribute("target", "_blank")
+//         // map.appendChild(area)
+//     }
+// }
+
+// initMap()
 
 const formatTime = (time) => {
     let minutes = ""
@@ -208,8 +247,6 @@ const setCurrentWaypoint = (rare) => {
 }
 
 const setItems = (rare, element) => {
-    console.log("SETTING ITEMS")
-
     while (element.lastElementChild) {
         element.removeChild(element.lastElementChild)
     }
@@ -264,17 +301,20 @@ const playSound = () => {
 const recalculate = () => {
     const now = Math.floor(new Date().getTime() / 1000)
     const diff = now - window.startTime
-    const spawnIndex = Math.floor(diff / 1200)
+
+    const spawnIndex = Math.floor(diff / rotationTimer)
     const currentRareIndex = Math.floor(spawnIndex % 20)
     const nextRareIndex = Math.floor((spawnIndex + 1) % 20)
 
     const currentRareTime = new Date(0)
-    currentRareTime.setUTCSeconds(window.startTime + spawnIndex * 1200)
+    currentRareTime.setUTCSeconds(window.startTime + spawnIndex * rotationTimer)
 
     const nextRareTime = new Date(0)
-    nextRareTime.setUTCSeconds(window.startTime + spawnIndex * 1200 + 1200)
+    nextRareTime.setUTCSeconds(
+        window.startTime + spawnIndex * rotationTimer + rotationTimer
+    )
 
-    const currentTime = currentRareTime.getTime() / 1000 - now + 1200
+    const currentTime = currentRareTime.getTime() / 1000 - now + rotationTimer
     setCurrentTimestamp(currentRareTime)
     setCurrentTime(currentTime)
 

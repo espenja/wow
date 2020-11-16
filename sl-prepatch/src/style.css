@@ -104,6 +104,22 @@ hr {
     width: 100px;
 }
 
+#map {
+    margin-bottom: 20px;
+    z-index: 0;
+}
+
+.skull {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    z-index: 9999;
+}
+
+area {
+    cursor: pointer;
+}
+
 #speaker {
     cursor: pointer;
     fill: white;
