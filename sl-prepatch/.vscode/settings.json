@@ -1,0 +1,33 @@
+{
+    "files.eol": "\n",
+    "editor.rulers": [
+        80
+    ],
+    "debug.internalConsoleOptions": "neverOpen",
+    "editor.formatOnSave": true,
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "search.useIgnoreFiles": false,
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/.git": true,
+        "**/yarn.lock": true,
+        "**/.yarn": true,
+        "**/dist": true
+    },
+    "git.ignoreLimitWarning": true
+}

@@ -1,0 +1,26 @@
+{
+    "root": true,
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "script"
+    },
+    "env": {
+        "browser": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "plugins": [
+        "prettier"
+    ],
+    "rules": {
+        "no-var": "error",
+        "no-extra-semi": "error"
+    }
+}
