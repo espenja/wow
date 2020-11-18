@@ -7,9 +7,27 @@ body {
     background: linear-gradient(180deg, #032b43 0%, #032336 100%);
 }
 
+.w400 {
+    width: 500px;
+}
+
 .container {
     margin: auto;
-    max-width: 800px;
+    max-width: 1000px;
+    position: relative;
+}
+
+.container-fluid {
+    display: flex;
+    flex: auto;
+}
+
+.container-fluid-ver {
+    display: flex;
+    flex-direction: col;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .container-fluid-hz {
@@ -104,30 +122,101 @@ hr {
     width: 100px;
 }
 
-#map {
+#mapcontainer {
+    display: flex;
+    justify-content: center;
+    position: relative;
     margin-bottom: 20px;
-    z-index: 0;
+    width: 80%;
+}
+
+#map {
+    display: absolute;
+    width: 100%;
+}
+
+#mapwrapper {
+    display: inline-flex;
 }
 
 .skull {
-    width: 10px;
-    height: 10px;
     position: absolute;
-    z-index: 9999;
+    width: 20px;
+    height: 20px;
 }
 
-area {
+.tippy-content > .content {
+    font-size: 15px;
+}
+
+.tippy-content > .header {
+    font-size: 20px;
+}
+
+#settings {
     cursor: pointer;
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    height: 30px;
+    width: 30px;
+    z-index: 99999;
+}
+
+.spin {
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: once;
+    animation-timing-function: cubic-bezier();
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#rareSettings {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: auto auto auto;
+    font-size: 20px;
+    border: 1px solid #dfdfdf;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#rareSettingsWrapper {
+    color: #dfdfdf;
+}
+
+.check-container > label,
+.check-container > input {
+    cursor: pointer;
+}
+
+.check-container > label {
+    margin-left: 10px;
+}
+
+.check-container {
+    display: inline-block;
+    margin: 10px;
+    color: white;
 }
 
 #speaker {
     cursor: pointer;
     fill: white;
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
     height: 30px;
     width: 30px;
+    z-index: 9999;
 }
 
 .rare {
@@ -170,14 +259,15 @@ th {
     border: 1px solid #dddddd;
 }
 
-/* .container-fluid {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-} */
-
 #footer {
     color: #c0c0c0;
+}
+
+@media only screen and (min-width: 1024px) {
+    #rareSettings {
+        grid-column-gap: 10px;
+        grid-template-columns: auto auto auto auto;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -186,5 +276,24 @@ th {
         left: calc(50% - 25px);
         height: 40px;
         width: 40px;
+    }
+
+    #rareSettings {
+        grid-column-gap: 10px;
+        grid-template-columns: auto auto;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    /* For mobile phones: */
+    #icon {
+        left: calc(50% - 25px);
+        height: 40px;
+        width: 40px;
+    }
+
+    #rareSettings {
+        grid-column-gap: 0;
+        grid-template-columns: auto;
     }
 }

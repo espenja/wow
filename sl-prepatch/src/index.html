@@ -13,7 +13,11 @@
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
         <title>Shadowlands Pre-Patch Rares</title>
-        <link rel="stylesheet" href="./style.css" />
+        <link
+            rel="stylesheet"
+            href="./style.css?1e0d40d9-b431-4f24-ace9-9a1fedfb6133"
+        />
+
         <script>
             const whTooltips = {
                 colorLinks: true,
@@ -23,18 +27,56 @@
             }
         </script>
         <script src="https://wow.zamimg.com/widgets/power.js"></script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/tippy.js@6/animations/scale.css"
+        />
     </head>
-
     <body>
-        <img src="img/wowicon.svg" id="icon" />
-        <img src="img/speaker.svg" id="speaker" onClick="toggleSound()" />
+        <img src="img/wowicon.svg" id="icon" alt="wow icon" />
+        <img
+            src="img/speaker.svg"
+            id="speaker"
+            onClick="toggleSound()"
+            alt="speaker icon"
+        />
+        <img
+            id="settings"
+            src="img/cogwheel.svg"
+            alt="Settings"
+            onClick="toggleConfig()"
+        />
         <div class="container">
             <h1>Shadowlands Pre-Patch Rares</h1>
-            <!-- <div class="container-fluid-hz">
-                <div id="skull-container"></div>
-                <img id="map" src="img/icecrown.jpg" width="100%" />
-                <!-- <map id="map" name="icecrown"> </map> -->
-            <!-- </div>  -->
+            <div
+                id="rareSettingsWrapper"
+                class="container-fluid-hz center"
+                style="display: none"
+            >
+                <img
+                    id="cogwheelSettings"
+                    class="spin"
+                    src="img/cogwheel.svg"
+                    alt="Settings"
+                    style="width: 50px"
+                />
+                <h2 style="display: inline-block">
+                    Sound warning for checked rares
+                </h2>
+                <div id="rareSettings"></div>
+            </div>
+            <div class="container-fluid-hz">
+                <div id="mapcontainer">
+                    <img
+                        id="map"
+                        src="img/icecrown.jpg"
+                        alt="Map of Icecrown"
+                    />
+                    <div id="skull-container"></div>
+                </div>
+            </div>
             <div class="container-fluid-hz">
                 <button
                     type="button"
@@ -53,27 +95,31 @@
                     North America
                 </button>
             </div>
-            <div class="mt-40">
-                <h2 class="current">Currently active</h2>
-                <p id="currentActiveRare" class="rare current"></p>
-                <p id="currentActiveSpawnedTimestamp" class="time"></p>
-                <p id="currentActiveSpawnedTime" class="time"></p>
-                <p id="currentActiveWaypoint" class="time"></p>
-                <div
-                    id="currentActiveItems"
-                    class="container-fluid-hz center"
-                ></div>
-            </div>
-            <hr />
-            <div class="mt-40">
-                <h2 class="next">Next active</h2>
-                <p id="nextActiveRare" class="rare next"></p>
-                <p id="nextActiveSpawnsTimestamp" class="time"></p>
-                <p id="nextActiveSpawnsTime" class="time"></p>
-                <div
-                    id="nextActiveItems"
-                    class="container-fluid-hz center"
-                ></div>
+            <div class="container-fluid-ver">
+                <div class="mt-40 w400">
+                    <h2 class="next">Next rare spawn</h2>
+                    <p id="nextActiveRare" class="rare next"></p>
+                    <p id="nextActiveSpawnsTimestamp" class="time"></p>
+                    <p id="nextActiveSpawnsTime" class="time"></p>
+                    <p id="nextActiveActiveTime" class="time"></p>
+                    <p id="nextActiveWaypoint" class="time"></p>
+                    <div
+                        id="nextActiveItems"
+                        class="container-fluid-hz center"
+                    ></div>
+                </div>
+                <div class="mt-40 w400">
+                    <h2 class="current">Current rare spawn</h2>
+                    <p id="currentActiveRare" class="rare current"></p>
+                    <p id="currentActiveSpawnedTimestamp" class="time"></p>
+                    <p id="currentActiveSpawnedTime" class="time"></p>
+                    <p id="currentActiveActiveTime" class="time"></p>
+                    <p id="currentActiveWaypoint" class="time"></p>
+                    <div
+                        id="currentActiveItems"
+                        class="container-fluid-hz center"
+                    ></div>
+                </div>
             </div>
             <hr />
             <div class="mt-40">
@@ -95,7 +141,10 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="script.js"></script>
+        <script
+            type="text/javascript"
+            src="script.js?1b1925c8-f7c2-4785-bb05-62004d4aca25"
+        ></script>
         <script type="text/javascript">
             !(function (T, l, y) {
                 var S = T.location,

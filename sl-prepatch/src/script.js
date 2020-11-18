@@ -1,33 +1,51 @@
 // const startTimeEU = 1605097200 + 120
 // const startTimeNA = 1605054000 + 120
 
-const startTimeEU = 1605556200 + 120
-const startTimeNA = 1605556200 + 120
+// const startTimeNA = 1605548877 // + 220
+// const startTimeEU = 1605556077 // + 220
+const startTimeEU = 1605556177 + 120
+const startTimeNA = 1605548977 + 120
 const rotationTimer = 600
+const activationTime = 120
 
 window.selected = "EU"
 window.startTime = startTimeEU
 window.sound = true
+window.config = false
 window.preventDing = false
 window.loadedTime = new Date()
 window.loadedTime.setSeconds(window.loadedTime.getSeconds() + 5)
 
+const settings = JSON.parse(localStorage.getItem("settings") || "{}")
+
+if (!settings["sound"]) {
+    settings["sound"] = {}
+}
+
 const currentActiveRare = document.getElementById("currentActiveRare")
+const currentActiveWaypoint = document.getElementById("currentActiveWaypoint")
+const currentActiveItems = document.getElementById("currentActiveItems")
+const currentActiveActiveTime = document.getElementById(
+    "currentActiveActiveTime"
+)
 const currentActiveSpawnedTimestamp = document.getElementById(
     "currentActiveSpawnedTimestamp"
 )
 const currentActiveSpawnedTime = document.getElementById(
     "currentActiveSpawnedTime"
 )
+
 const nextActiveRare = document.getElementById("nextActiveRare")
 const nextActiveSpawnsTimestamp = document.getElementById(
     "nextActiveSpawnsTimestamp"
 )
 const nextActiveSpawnsTime = document.getElementById("nextActiveSpawnsTime")
-const currentActiveWaypoint = document.getElementById("currentActiveWaypoint")
-const currentActiveItems = document.getElementById("currentActiveItems")
 const nextActiveItems = document.getElementById("nextActiveItems")
+const nextActiveWaypoint = document.getElementById("nextActiveWaypoint")
+const nextActiveActiveTime = document.getElementById("nextActiveActiveTime")
 const speaker = document.getElementById("speaker")
+const cogwheel = document.getElementById("settings")
+const config = document.getElementById("rareSettingsWrapper")
 
 window.currentRare = ""
 
@@ -174,40 +192,88 @@ const rares = [
     }
 ].sort((a, b) => a.order - b.order)
 
-// const initMap = () => {
-//     const map = document.getElementById("map")
+const getRareId = (rare) => {
+    return rare.name.replace(/[^A-Za-z]/g, "").toLowerCase()
+}
 
-//     const x1 = map.offsetLeft
-//     const y1 = map.offsetTop
+const resetSkullColors = () => {
+    for (const el of document.getElementsByClassName("skull")) {
+        el.setAttribute("src", "img/skull.png")
+    }
+}
 
-//     // console.log(x1, y1)
+const setRareSkullActive = (rare, color) => {
+    document
+        .getElementById(getRareId(rare))
+        .setAttribute(
+            "src",
+            color === "green" ? "img/skull_green.png" : "img/skull_red.png"
+        )
+}
 
-//     const skulls = document.getElementById("skull-container")
-//     skulls.innerHTML = ""
+const initMap = () => {
+    const skulls = document.getElementById("skull-container")
+    skulls.innerHTML = ""
 
-//     for (const rare of rares) {
-//         const skull = document.createElement("img")
-//         skull.setAttribute("src", "img/skull.png")
-//         skull.setAttribute("class", "skull")
-//         skull.setAttribute(
-//             "style",
-//             `left: ${x1 + rare.x}px; top: ${y1 + rare.y}px;`
-//         )
+    for (const rare of rares) {
+        const skull = document.createElement("img")
+        skull.setAttribute("id", getRareId(rare))
+        skull.setAttribute("src", "img/skull.png")
+        skull.setAttribute("class", "skull")
+        skull.setAttribute("style", `left: ${rare.x}%; top: ${rare.y}%;`)
 
-//         // console.log(`left: ${x1 + rare.x}px; top: ${y1 + rare.y}px;`)
+        skulls.appendChild(skull)
 
-//         skulls.appendChild(skull)
-//         // const area = document.createElement("area")
-//         // area.setAttribute("title", rare.name)
-//         // area.setAttribute("shape", "circle")
-//         // area.setAttribute("coords", `${~~rare.x},${~~rare.y},50`)
-//         // area.setAttribute("href", "img/skull.png")
-//         // area.setAttribute("target", "_blank")
-//         // map.appendChild(area)
-//     }
-// }
+        tippy("#" + getRareId(rare), {
+            content: `<div class='header'>
+                ${rare.name}
+                </div><hr /><div class='content'>x:${rare.x}, y:${rare.y}</div>`,
+            allowHTML: true
+        })
+    }
+}
 
-// initMap()
+initMap()
+
+const initSettings = () => {
+    const rareSettings = document.getElementById("rareSettings")
+    rareSettings.innerHTML = ""
+
+    for (const rare of [...rares].sort((a, b) => (a.name > b.name ? 1 : -1))) {
+        const rareId = getRareId(rare)
+
+        if (settings["sound"][rareId] === undefined) {
+            settings["sound"][rareId] = true
+        }
+
+        const checkContainer = document.createElement("div")
+        checkContainer.setAttribute("class", "check-container")
+
+        const rareSetting = document.createElement("input")
+        const rareLabel = document.createElement("label")
+        rareSetting.setAttribute("id", `check${rareId}`)
+        rareSetting.setAttribute("type", "checkbox")
+        rareSetting.setAttribute("name", `check${rareId}`)
+        rareLabel.setAttribute("for", `check${rareId}`)
+
+        if (settings["sound"][rareId]) {
+            rareSetting.checked = settings["sound"][rareId]
+        }
+
+        rareSetting.addEventListener("change", (e) => {
+            settings["sound"][rareId] = e.target.checked
+            localStorage.setItem("settings", JSON.stringify(settings))
+        })
+
+        rareLabel.innerHTML = rare.name
+
+        checkContainer.appendChild(rareSetting)
+        checkContainer.appendChild(rareLabel)
+        rareSettings.appendChild(checkContainer)
+    }
+}
+
+initSettings()
 
 const formatTime = (time) => {
     let minutes = ""
@@ -221,25 +287,48 @@ const formatTime = (time) => {
 
     return (
         (minutes ? ~~minutes.toString().padStart(2, "0") + " minutes, " : "") +
-        seconds +
+        ~~seconds +
         " seconds"
     )
 }
 
-// const formatDateTime = (dateTime = new Date()) => {
-//     return dateTime.getFullYear() + ""
-// }
+const formatDate = (date) => {
+    return date.toString().replace(/\(.*?\)$/g, "")
+}
 
 const setCurrentRare = (rare) => {
     currentActiveRare.innerHTML = rare.name
 }
 
 const setCurrentTime = (time) => {
-    currentActiveSpawnedTime.innerHTML = "Time remaining: " + formatTime(time)
+    currentActiveSpawnedTime.innerHTML =
+        "Spawned " + formatTime(Math.abs(600 - time)) + " ago"
 }
 
 const setCurrentTimestamp = (time) => {
-    currentActiveSpawnedTimestamp.innerHTML = "Spawned: " + time
+    const activates = new Date(0)
+    activates.setUTCSeconds(time.getTime() / 1000 + 120)
+
+    if (new Date() < activates) {
+        currentActiveActiveTime.innerHTML =
+            "Activates in " +
+            formatTime(
+                Math.abs(
+                    new Date().getTime() / 1000 - activates.getTime() / 1000
+                )
+            )
+    } else {
+        currentActiveActiveTime.innerHTML =
+            "Activated " +
+            formatTime(
+                Math.abs(
+                    activates.getTime() / 1000 - new Date().getTime() / 1000
+                )
+            ) +
+            " ago"
+    }
+
+    currentActiveSpawnedTimestamp.innerHTML = "Spawned: " + formatDate(time)
 }
 
 const setCurrentWaypoint = (rare) => {
@@ -266,11 +355,17 @@ const setNextRare = (rare) => {
 }
 
 const setNextTime = (time) => {
-    nextActiveSpawnsTime.innerHTML = "Time until spawn: " + formatTime(time)
+    nextActiveSpawnsTime.innerHTML = "Spawns in " + formatTime(time)
+    nextActiveActiveTime.innerHTML =
+        "Activates in " + formatTime(time + activationTime)
 }
 
 const setNextTimestamp = (time) => {
-    nextActiveSpawnsTimestamp.innerHTML = "Spawns: " + time
+    nextActiveSpawnsTimestamp.innerHTML = "Spawns: " + formatDate(time)
+}
+
+const setNextWaypoint = (rare) => {
+    nextActiveWaypoint.innerHTML = `Waypoint: /tway ${rare.x} ${rare.y}`
 }
 
 const playSound = () => {
@@ -322,22 +417,41 @@ const recalculate = () => {
     setNextTimestamp(nextRareTime)
     setNextTime(nextTime)
 
+    const currentRare = rares[currentRareIndex]
+    const nextRare = rares[nextRareIndex]
+
+    if (
+        currentRareTime.getTime() / 1000 + 100 ===
+        ~~(new Date().getTime() / 1000)
+    ) {
+        if (
+            window.sound &&
+            !window.preventDing &&
+            new Date() > window.loadedTime
+        ) {
+            if (settings["sound"][getRareId(currentRare)]) {
+                playSound()
+            }
+        }
+    }
+
     if (window.currentRare === rares[currentRareIndex].name) {
         return
     }
 
-    if (window.sound && !window.preventDing && new Date() > window.loadedTime) {
-        playSound()
-    }
+    resetSkullColors()
+    setRareSkullActive(currentRare, "green")
+    setRareSkullActive(nextRare, "red")
 
-    setCurrentRare(rares[currentRareIndex])
-    setCurrentWaypoint(rares[currentRareIndex])
-    setItems(rares[currentRareIndex], currentActiveItems)
-    setNextRare(rares[nextRareIndex])
-    setItems(rares[nextRareIndex], nextActiveItems)
+    setCurrentRare(currentRare)
+    setCurrentWaypoint(currentRare)
+    setItems(currentRare, currentActiveItems)
+    setNextRare(nextRare)
+    setItems(nextRare, nextActiveItems)
+    setNextWaypoint(nextRare)
 
     window.preventDing = false
-    window.currentRare = rares[currentRareIndex].name
+    window.currentRare = currentRare.name
 
     const nextRares = document.getElementById("nextRares")
     nextRares.innerHTML = ""
@@ -360,7 +474,9 @@ const recalculate = () => {
         const tdTime = document.createElement("td")
 
         const indexDate = new Date(0)
-        indexDate.setSeconds(window.startTime + counter * 1200 + 2 * 1200)
+        indexDate.setSeconds(
+            window.startTime + counter * rotationTimer + 2 * rotationTimer
+        )
 
         tdName.innerHTML = rares[index].name
         tdTime.innerHTML = indexDate
@@ -386,12 +502,28 @@ setInterval(() => {
 
 const toggleSound = () => {
     if (window.sound) {
-        window.sound = false
         speaker.setAttribute("src", "img/mute.svg")
     } else {
-        window.sound = true
         speaker.setAttribute("src", "img/speaker.svg")
     }
+
+    window.sound = !window.sound
+}
+
+const toggleConfig = () => {
+    window.config = !window.config
+
+    cogwheel.classList.add("spin")
+
+    if (window.config) {
+        config.setAttribute("style", "display: flex")
+    } else {
+        config.setAttribute("style", "display: none")
+    }
+
+    setTimeout(() => {
+        cogwheel.classList.remove("spin")
+    }, 2000)
 }
 
 const setNaSelected = () => {
