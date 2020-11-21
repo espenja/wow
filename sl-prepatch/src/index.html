@@ -15,7 +15,7 @@
         <title>Shadowlands Pre-Patch Rares</title>
         <link
             rel="stylesheet"
-            href="./style.css?1e0d40d9-b431-4f24-ace9-9a1fedfb6133"
+            href="./style.css?30f88ab7-7e6d-4981-9ba4-b725dc8b967f"
         />
 
         <script>
@@ -61,6 +61,18 @@
                     src="img/cogwheel.svg"
                     alt="Settings"
                     style="width: 50px"
+                />
+                <h2>Bell sound offset</h2>
+                <p id="bellOffsetValue" class="center" style="display: block">
+                    50
+                </p>
+                <input
+                    id="bellOffset"
+                    type="range"
+                    min="1"
+                    max="120"
+                    oninput="setOffset(this.value)"
+                    style="width: 90%"
                 />
                 <h2 style="display: inline-block">
                     Sound warning for checked rares
@@ -128,7 +140,7 @@
             </div>
             <hr />
             <div id="footer" class="center">
-                <p>fictive © 2020</p>
+                <p>Fîctive-TarrenMill © 2020</p>
                 <p>
                     This page has no affiliation with World of Warcraft,
                     Warcraft and/or Blizzard Entertainment.
@@ -143,7 +155,7 @@
 
         <script
             type="text/javascript"
-            src="script.js?1b1925c8-f7c2-4785-bb05-62004d4aca25"
+            src="script.js?1aef189f-385e-4658-a50b-4f50724ef4a5"
         ></script>
         <script type="text/javascript">
             !(function (T, l, y) {

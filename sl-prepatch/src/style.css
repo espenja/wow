@@ -163,6 +163,10 @@ hr {
     z-index: 99999;
 }
 
+#bellOffsetValue {
+    margin-right: 20px;
+}
+
 .spin {
     animation-name: spin;
     animation-duration: 2000ms;

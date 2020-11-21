@@ -3,8 +3,11 @@
 
 // const startTimeNA = 1605548877 // + 220
 // const startTimeEU = 1605556077 // + 220
+
+const settings = JSON.parse(localStorage.getItem("settings") || "{}")
+
 const startTimeEU = 1605556177 + 120
-const startTimeNA = 1605548977 + 120
+const startTimeNA = 1605548957 + 120
 const rotationTimer = 600
 const activationTime = 120
 
@@ -15,8 +18,6 @@ window.config = false
 window.preventDing = false
 window.loadedTime = new Date()
 window.loadedTime.setSeconds(window.loadedTime.getSeconds() + 5)
-
-const settings = JSON.parse(localStorage.getItem("settings") || "{}")
 
 if (!settings["sound"]) {
     settings["sound"] = {}
@@ -46,8 +47,16 @@ const nextActiveActiveTime = document.getElementById("nextActiveActiveTime")
 const speaker = document.getElementById("speaker")
 const cogwheel = document.getElementById("settings")
 const config = document.getElementById("rareSettingsWrapper")
+const bellOffsetValue = document.getElementById("bellOffsetValue")
+const bellOffset = document.getElementById("bellOffset")
+
+bellOffset.value = settings["bellOffset"] || 20
 
 window.currentRare = ""
+
+const saveSettings = () => {
+    localStorage.setItem("settings", JSON.stringify(settings))
+}
 
 const rares = [
     {
@@ -235,7 +244,28 @@ const initMap = () => {
 
 initMap()
 
+const formatTime = (time) => {
+    let minutes = ""
+    let seconds = ""
+
+    if (time / 60 >= 1) {
+        minutes = time / 60
+    }
+
+    seconds = time % 60
+
+    return (
+        (minutes ? ~~minutes.toString().padStart(2, "0") + " minutes, " : "") +
+        ~~seconds +
+        " seconds"
+    )
+}
+
 const initSettings = () => {
+    // bellOffset.value = bellOffset
+    bellOffsetValue.innerHTML =
+        formatTime(settings["bellOffset"] || 20) + " before activation"
+
     const rareSettings = document.getElementById("rareSettings")
     rareSettings.innerHTML = ""
 
@@ -262,7 +292,7 @@ const initSettings = () => {
 
         rareSetting.addEventListener("change", (e) => {
             settings["sound"][rareId] = e.target.checked
-            localStorage.setItem("settings", JSON.stringify(settings))
+            saveSettings()
         })
 
         rareLabel.innerHTML = rare.name
@@ -274,23 +304,6 @@ const initSettings = () => {
 }
 
 initSettings()
-
-const formatTime = (time) => {
-    let minutes = ""
-    let seconds = ""
-
-    if (time / 60 >= 1) {
-        minutes = time / 60
-    }
-
-    seconds = time % 60
-
-    return (
-        (minutes ? ~~minutes.toString().padStart(2, "0") + " minutes, " : "") +
-        ~~seconds +
-        " seconds"
-    )
-}
 
 const formatDate = (date) => {
     return date.toString().replace(/\(.*?\)$/g, "")
@@ -369,6 +382,7 @@ const setNextWaypoint = (rare) => {
 }
 
 const playSound = () => {
+    console.log("Attempting to play sound")
     let url = "./sound/Long.ogg"
     window.AudioContext = window.AudioContext || window.webkitAudioContext //fix up prefixing
     let context = new AudioContext() //context
@@ -421,7 +435,9 @@ const recalculate = () => {
     const nextRare = rares[nextRareIndex]
 
     if (
-        currentRareTime.getTime() / 1000 + 100 ===
+        currentRareTime.getTime() / 1000 +
+            activationTime -
+            settings["bellOffset"] ===
         ~~(new Date().getTime() / 1000)
     ) {
         if (
@@ -542,6 +558,12 @@ const setEuSelected = () => {
     document.getElementById("button-eu").classList.add("active")
     document.getElementById("button-na").classList.remove("active")
     recalculate()
+}
+
+const setOffset = (offset) => {
+    bellOffsetValue.innerHTML = formatTime(offset) + " before activation"
+    settings["bellOffset"] = offset
+    saveSettings()
 }
 
 window.updateRegion = (region) => {
